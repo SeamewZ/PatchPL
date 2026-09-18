@@ -20,7 +20,7 @@ from peft import PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer, StoppingCriteria
 
 MODEL_PATH = "models/Qwen3.5-4B"
-LORA_DIR = os.environ.get("LORA_DIR", "checkpoints/qwen35-4b-lora-patch2")
+LORA_DIR = os.environ.get("LORA_DIR", "checkpoints/qwen35-4b-lora-patch3")
 TRAIN_DATA = "data/nemotron/deepseek_sft_chunks.jsonl"
 TEST_DATA = "data/swe_smith_test250.jsonl"
 OUT_FILE = "predictions/qwen35-4b-lora-ds-smith.json"
