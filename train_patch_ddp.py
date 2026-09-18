@@ -1,0 +1,242 @@
+#!/usr/bin/env python3
+"""Stage-2 patch SFT, 3-GPU DDP version (launch with torchrun).
+
+Interleaved sample assignment: each rank trains on its own slice of the
+epoch; DDP all-reduces gradients every step -> effective batch = 8 * world.
+"""
+import json
+import math
+import os
+import random
+import re
+import time
+
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
+
+import torch
+import torch.distributed as dist
+import torch.nn.functional as F
+from torch.nn.parallel import DistributedDataParallel as DDP
+from torch.utils.checkpoint import checkpoint
+from peft import LoraConfig, PeftModel, get_peft_model
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+MODEL_PATH = "models/Qwen3.5-4B"
+TRAIN_DATA = "data/patch_sft_v4/train.jsonl"
+OUTPUT_DIR = "checkpoints/qwen35-4b-lora-patch3"
+INIT_LORA = "checkpoints/qwen35-4b-lora-ds"
+MAX_SEQ_LENGTH = 16384
+CHUNK = 2048
+EPOCHS = 3
+GRAD_ACC = 8
+LR = 5e-5
+WARMUP = 20
+STATE_FILE = os.path.join(OUTPUT_DIR, "state.json")
+DONE_MARKER = "QWEN35-4B-LORA-PATCH-DONE"
+
+MARKER = re.compile(r'(?=<\|im_start\|>(?:system|user|assistant))')
+
+
+def setup_dist():
+    rank = int(os.environ.get("RANK", 0))
+    world = int(os.environ.get("WORLD_SIZE", 1))
+    local_rank = int(os.environ.get("LOCAL_RANK", 0))
+    torch.cuda.set_device(local_rank)
+    if world > 1:
+        dist.init_process_group("nccl")
+    return rank, world, local_rank
+
+
+def tokenize(rendered, tok):
+    segs = [s for s in MARKER.split(rendered) if s]
+    ids, labels = [], []
+    head_len = 0
+    for i, seg in enumerate(segs):
+        is_assistant = seg.startswith("<|im_start|>assistant")
+        sid = tok(seg, add_special_tokens=False)["input_ids"]
+        ids.extend(sid)
+        labels.extend(sid if is_assistant else [-100] * len(sid))
+        if i < 2:
+            head_len = len(ids)
+    if len(ids) > MAX_SEQ_LENGTH:
+        head_keep = min(head_len, MAX_SEQ_LENGTH // 2)
+        tail_keep = MAX_SEQ_LENGTH - head_keep
+        ids = ids[:head_keep] + ids[-tail_keep:]
+        labels = labels[:head_keep] + labels[-tail_keep:]
+    return ids, labels
+
+
+def subvocab_ce(hidden, labels, lm_weight, tok_ignore=-100):
+    pos = labels != tok_ignore
+    uniq, inv = torch.unique(labels[pos], return_inverse=True)
+    cls = torch.full_like(labels, -100)
+    cls[pos] = inv
+    logits = F.linear(hidden, lm_weight[uniq])
+    shift = logits[:-1].contiguous()
+    lb = cls[1:].contiguous()
+    total = torch.zeros((), device=hidden.device)
+    ntok = 0
+    for i in range(0, shift.size(0), CHUNK):
+        lg = shift[i:i + CHUNK].float()
+        lc = lb[i:i + CHUNK]
+        mask = lc != -100
+        n = mask.sum().item()
+        if n == 0:
+            continue
+        total = total + F.cross_entropy(lg[mask], lc[mask], reduction="sum")
+        ntok += n
+    return total / max(ntok, 1)
+
+
+def save_state(step, ep, pos, order):
+    with open(STATE_FILE, "w") as f:
+        json.dump({"step": step, "epoch": ep, "pos": pos, "order": order}, f)
+
+
+def main():
+    rank, world, local_rank = setup_dist()
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    tok = AutoTokenizer.from_pretrained(MODEL_PATH, trust_remote_code=True)
+    if tok.pad_token is None:
+        tok.pad_token = tok.eos_token
+
+    data = [json.loads(l) for l in open(TRAIN_DATA)]
+    samples = []
+    for d in data:
+        ids, lab = tokenize(d["rendered"], tok)
+        if ids:
+            samples.append((ids, lab))
+    if rank == 0:
+        print("samples:", len(samples))
+
+    base = AutoModelForCausalLM.from_pretrained(
+        MODEL_PATH, torch_dtype=torch.bfloat16,
+        trust_remote_code=True).to(local_rank)
+    base.config.use_cache = False
+
+    targets = set()
+    for name, mod in base.named_modules():
+        if isinstance(mod, torch.nn.Linear):
+            leaf = name.split(".")[-1]
+            if leaf in ("q_proj", "k_proj", "v_proj", "o_proj",
+                        "gate_proj", "up_proj", "down_proj",
+                        "wq", "wk", "wv", "wo", "w1", "w2", "w3"):
+                targets.add(leaf)
+    targets = sorted(targets)
+
+    adapter_path = os.path.join(OUTPUT_DIR, "adapter_model.safetensors")
+    init_path = os.path.join(INIT_LORA, "adapter_model.safetensors")
+    if os.path.exists(adapter_path):
+        model = PeftModel.from_pretrained(base, OUTPUT_DIR, is_trainable=True)
+    elif os.path.exists(init_path):
+        model = PeftModel.from_pretrained(base, INIT_LORA, is_trainable=True)
+    else:
+        model = get_peft_model(base, LoraConfig(
+            r=64, lora_alpha=128, lora_dropout=0.05,
+            bias="none", task_type="CAUSAL_LM", target_modules=targets))
+    if rank == 0:
+        model.print_trainable_parameters()
+
+    orig = model.base_model.model
+    body = orig.model
+    lm_weight = orig.lm_head.weight.detach()
+    orig.enable_input_require_grads()
+
+    def make_wrapped(orig_fn):
+        def wrapped(*args, **kwargs):
+            def run(*a):
+                return orig_fn(*a, **kwargs)
+            return checkpoint(run, *args, use_reentrant=False)
+        return wrapped
+
+    for layer in body.layers:
+        layer.forward = make_wrapped(layer.forward)
+    if rank == 0:
+        print("manual per-layer checkpointing installed")
+
+    opt = torch.optim.AdamW(
+        [p for p in model.parameters() if p.requires_grad], lr=LR)
+
+    if world > 1:
+        ddp = DDP(model, device_ids=[local_rank],
+                  find_unused_parameters=False)
+    else:
+        ddp = model
+
+    # each rank consumes interleaved samples: rank r -> order[r], order[r+w]...
+    order = list(range(len(samples)))
+    random.Random(1000).shuffle(order)
+    my_order = order[rank::world]
+    steps_per_epoch = math.ceil(len(my_order) / GRAD_ACC)
+    total_steps = steps_per_epoch * EPOCHS
+    if rank == 0:
+        print("world:", world, "| my samples:", len(my_order),
+              "| steps/epoch:", steps_per_epoch, "| total:", total_steps)
+
+    step = 0
+    start_ep = 0
+    start_pos = 0
+    if os.path.exists(STATE_FILE):
+        st = json.load(open(STATE_FILE))
+        step = st.get("step", 0)
+        start_ep = st.get("epoch", 0)
+        start_pos = st.get("pos", 0)
+        if rank == 0:
+            print("RESUME state: step=%d epoch=%d pos=%d"
+                  % (step, start_ep, start_pos))
+
+    t0 = time.time()
+    for ep in range(start_ep, EPOCHS):
+        opt.zero_grad()
+        acc = 0
+        pos = start_pos if ep == start_ep else 0
+        while pos < len(my_order):
+            ids, lab = samples[my_order[pos]]
+            iids = torch.tensor([ids], dtype=torch.long, device=local_rank)
+            ll = torch.tensor([lab], dtype=torch.long, device=local_rank)
+            hs = body(input_ids=iids).last_hidden_state[0]
+            loss = subvocab_ce(hs, ll[0], lm_weight)
+            if not loss.requires_grad:
+                pos += 1
+                continue
+            (loss / GRAD_ACC).backward()
+            acc += 1
+            pos += 1
+            if acc == GRAD_ACC:
+                torch.nn.utils.clip_grad_norm_(
+                    [p for p in ddp.parameters() if p.requires_grad], 1.0)
+                opt.step()
+                opt.zero_grad()
+                acc = 0
+                step += 1
+                if step <= WARMUP:
+                    lr = LR * step / WARMUP
+                else:
+                    prog = (step - WARMUP) / max(1, total_steps - WARMUP)
+                    lr = LR * 0.5 * (1 + math.cos(math.pi * prog))
+                for g in opt.param_groups:
+                    g["lr"] = lr
+                if rank == 0 and step % 5 == 0:
+                    el = time.time() - t0
+                    print("step %d/%d loss=%.4f lr=%.2e %.0fs"
+                          % (step, total_steps, loss.item(), lr, el),
+                          flush=True)
+                if step % 100 == 0:
+                    if world > 1:
+                        dist.barrier()
+                    if rank == 0:
+                        model.save_pretrained(OUTPUT_DIR)
+                        save_state(step, ep, pos, order)
+                        print("saved checkpoint at step", step, flush=True)
+        if rank == 0:
+            save_state(step, ep + 1, 0, None)
+    if world > 1:
+        dist.barrier()
+    if rank == 0:
+        model.save_pretrained(OUTPUT_DIR)
+        tok.save_pretrained(OUTPUT_DIR)
+        print(DONE_MARKER)
+
+
+if __name__ == "__main__":
+    main()

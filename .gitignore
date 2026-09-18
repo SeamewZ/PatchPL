@@ -1,0 +1,19 @@
+# large artifacts / regenerable data
+checkpoints/
+models/
+repos/
+repos_patch/
+logs/
+predictions/
+train-*.jsonl.gz
+data/swe_smith_heldout.jsonl
+data/patch_sft_v2/
+data/patch_sft_v3/
+data/patch_sft_v4/
+data/swe_smith_test250.jsonl.orig
+*.safetensors
+*.log
+__pycache__/
+*.pyc
+.patch_guard_state
+.manual_guard_state
