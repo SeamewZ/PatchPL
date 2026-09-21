@@ -1,0 +1,31 @@
+{
+  "instance_id": "astropy__astropy-12907",
+  "sample": 2,
+  "verdicts": {
+    "msg02": 0,
+    "msg05": 0,
+    "msg07": 1,
+    "msg09": 1,
+    "msg12": 0,
+    "msg14": 0,
+    "msg16": 0,
+    "msg18": 0,
+    "msg20": 0,
+    "msg22": 0,
+    "msg24": 0,
+    "msg26": 0,
+    "msg28": 0,
+    "msg30": 0,
+    "msg32": 0,
+    "msg34": 0,
+    "msg36": 0,
+    "msg38": 0,
+    "msg40": 0,
+    "msg42": 0,
+    "msg44": 0,
+    "msg46": 0,
+    "msg48": 0,
+    "msg50": 0,
+    "msg52": 0
+  }
+}

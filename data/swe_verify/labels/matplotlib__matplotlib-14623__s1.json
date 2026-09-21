@@ -1,0 +1,31 @@
+{
+  "instance_id": "matplotlib__matplotlib-14623",
+  "sample": 1,
+  "verdicts": {
+    "msg02": 0,
+    "msg05": 0,
+    "msg07": 0,
+    "msg09": 0,
+    "msg11": 0,
+    "msg13": 0,
+    "msg15": 1,
+    "msg18": 0,
+    "msg20": 0,
+    "msg22": 1,
+    "msg24": 1,
+    "msg26": 1,
+    "msg29": 1,
+    "msg32": 1,
+    "msg34": 1,
+    "msg37": 1,
+    "msg39": 1,
+    "msg41": 1,
+    "msg43": 1,
+    "msg46": 1,
+    "msg48": 1,
+    "msg50": 0,
+    "msg52": 0,
+    "msg54": 0,
+    "msg56": 1
+  }
+}

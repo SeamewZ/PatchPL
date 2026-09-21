@@ -1,0 +1,31 @@
+{
+  "instance_id": "mwaskom__seaborn-3187",
+  "sample": 2,
+  "verdicts": {
+    "msg02": 0,
+    "msg05": 0,
+    "msg07": 0,
+    "msg09": 0,
+    "msg11": 0,
+    "msg13": 1,
+    "msg15": 1,
+    "msg17": 1,
+    "msg19": 1,
+    "msg21": 0,
+    "msg23": 0,
+    "msg25": 0,
+    "msg27": 1,
+    "msg29": 1,
+    "msg31": 1,
+    "msg33": 1,
+    "msg35": 0,
+    "msg37": 1,
+    "msg39": 1,
+    "msg41": 1,
+    "msg43": 1,
+    "msg45": 1,
+    "msg47": 1,
+    "msg49": 1,
+    "msg51": 0
+  }
+}

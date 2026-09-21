@@ -1,0 +1,31 @@
+{
+  "instance_id": "django__django-10880",
+  "sample": 0,
+  "verdicts": {
+    "msg02": 0,
+    "msg05": 1,
+    "msg07": 1,
+    "msg10": 1,
+    "msg13": 0,
+    "msg15": 1,
+    "msg17": 1,
+    "msg19": 1,
+    "msg22": 0,
+    "msg24": 0,
+    "msg26": 0,
+    "msg28": 0,
+    "msg30": 0,
+    "msg32": 0,
+    "msg34": 0,
+    "msg36": 0,
+    "msg38": 0,
+    "msg40": 0,
+    "msg42": 0,
+    "msg44": 0,
+    "msg46": 0,
+    "msg48": 1,
+    "msg50": 1,
+    "msg52": 1,
+    "msg54": 0
+  }
+}

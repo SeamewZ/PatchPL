@@ -1,0 +1,20 @@
+{
+  "instance_id": "matplotlib__matplotlib-13989",
+  "sample": 0,
+  "verdicts": {
+    "msg02": 0,
+    "msg04": 0,
+    "msg06": 1,
+    "msg08": 1,
+    "msg10": 0,
+    "msg12": 1,
+    "msg14": 1,
+    "msg16": 1,
+    "msg18": 1,
+    "msg20": 0,
+    "msg22": 0,
+    "msg24": 0,
+    "msg26": 1,
+    "msg28": 1
+  }
+}

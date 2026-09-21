@@ -1,0 +1,31 @@
+{
+  "instance_id": "psf__requests-1142",
+  "sample": 1,
+  "verdicts": {
+    "msg02": 0,
+    "msg04": 0,
+    "msg06": 0,
+    "msg08": 0,
+    "msg10": 0,
+    "msg12": 0,
+    "msg14": 0,
+    "msg16": 0,
+    "msg18": 0,
+    "msg20": 0,
+    "msg22": 0,
+    "msg24": 0,
+    "msg26": 0,
+    "msg28": 0,
+    "msg30": 1,
+    "msg32": 0,
+    "msg34": 0,
+    "msg36": 1,
+    "msg38": 0,
+    "msg40": 0,
+    "msg42": 1,
+    "msg44": 0,
+    "msg46": 1,
+    "msg48": 0,
+    "msg50": 1
+  }
+}

@@ -1,0 +1,518 @@
+{
+  "instance_id": "psf__requests-1142",
+  "repo": "psf/requests",
+  "base_commit": "22623bd8c265b78b161542663ee980738441c307",
+  "sample": 0,
+  "problem_statement": "requests.get is ALWAYS sending content length\nHi,\n\nIt seems like that request.get always adds 'content-length' header to the request.\nI think that the right behavior is not to add this header automatically in GET requests or add the possibility to not send it.\n\nFor example http://amazon.com returns 503 for every get request that contains 'content-length' header.\n\nThanks,\n\nOren\n\n",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are an autonomous software engineering agent working inside a git repository checkout mounted at /workspace/repo. Fix the GitHub issue described by the user by editing repository files. Use the provided tools (bash / read / edit). You may call multiple tools per message. Run relevant tests with bash before finishing. When the fix is done, stop calling tools and output a short summary."
+    },
+    {
+      "role": "user",
+      "content": "Fix the following GitHub issue in the repository at /workspace/repo:\n\n<issue>\nrequests.get is ALWAYS sending content length\nHi,\n\nIt seems like that request.get always adds 'content-length' header to the request.\nI think that the right behavior is not to add this header automatically in GET requests or add the possibility to not send it.\n\nFor example http://amazon.com returns 503 for every get request that contains 'content-length' header.\n\nThanks,\n\nOren\n\n\n</issue>"
+    },
+    {
+      "role": "assistant",
+      "content": "I'll start by exploring the repository structure to understand what we're working with.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_UT9N36eQw37HM8N2JazL8076",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"cd /workspace/repo && ls -la && git log --oneline -5\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"cd /workspace/repo && ls -la && git log --oneline -5\"}):\nbash: line 0: cd: repos/requests: No such file or directory\n",
+      "tool_call_id": "call_00_UT9N36eQw37HM8N2JazL8076"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_yFO4ko4kGDKnFZhAVun54330",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"cd /workspace/repo && ls -la && git log --oneline -5\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"cd /workspace/repo && ls -la && git log --oneline -5\"}):\nbash: line 0: cd: repos/requests: No such file or directory\n",
+      "tool_call_id": "call_00_yFO4ko4kGDKnFZhAVun54330"
+    },
+    {
+      "role": "assistant",
+      "content": "The shell seems to be already in a directory. Let me check.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_Ryw32zs8mAaTR2WxMXQD0235",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"pwd && ls -la\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"pwd && ls -la\"}):\n/home/wcx/swe/repos/requests\ntotal 96\ndrwxrwxr-x 6 wcx wcx  4096 9月  20 13:01 .\ndrwxrwxr-x 8 wcx wcx  4096 9月  20 12:39 ..\n-rw-rw-r-- 1 wcx wcx  2441 9月  20 13:01 AUTHORS.rst\ndrwxrwxr-x 8 wcx wcx  4096 9月  20 13:01 docs\ndrwxrwxr-x 2 wcx wcx  4096 9月  20 13:01 ext\ndrwxrwxr-x 8 wcx wcx  4096 9月  20 13:01 .git\n-rw-rw-r-- 1 wcx wcx   182 9月  20 13:01 .gitignore\n-rw-rw-r-- 1 wcx wcx 13687 9月  20 13:01 HISTORY.rst\n-rw-rw-r-- 1 wcx wcx   581 9月  20 13:01 LICENSE\n-rw-rw-r-- 1 wcx wcx   657 9月  20 13:01 Makefile\n-rw-rw-r-- 1 wcx wcx   100 9月  20 13:01 MANIFEST.in\n-rw-rw-r-- 1 wcx wcx  4377 9月  20 13:01 NOTICE\n-rw-rw-r-- 1 wcx wcx  2510 9月  20 13:01 README.rst\ndrwxrwxr-x 3 wcx wcx  4096 9月  20 13:01 requests\n-rw-rw-r-- 1 wcx wcx    13 9月  20 13:01 requirements.txt\n-rwxrwxr-x 1 wcx wcx  1671 9月  20 13:01 setup.py\n-rw-rw-r-- 1 wcx wcx  8824 9月  20 13:01 test_requests.py\n-rw-rw-r-- 1 wcx wcx   170 9月  20 13:01 .travis.yml\n",
+      "tool_call_id": "call_00_Ryw32zs8mAaTR2WxMXQD0235"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_2nSLe9rPSz9HgOMfVJjg3843",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"ls -la requests/ && git log --oneline -5\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"ls -la requests/ && git log --oneline -5\"}):\ntotal 348\ndrwxrwxr-x 3 wcx wcx   4096 9月  20 13:01 .\ndrwxrwxr-x 6 wcx wcx   4096 9月  20 13:01 ..\n-rw-rw-r-- 1 wcx wcx   6937 9月  20 13:01 adapters.py\n-rw-rw-r-- 1 wcx wcx   4285 9月  20 13:01 api.py\n-rw-rw-r-- 1 wcx wcx   5349 9月  20 13:01 auth.py\n-rw-rw-r-- 1 wcx wcx 211059 9月  20 13:01 cacert.pem\n-rw-rw-r-- 1 wcx wcx    543 9月  20 13:01 certs.py\n-rw-rw-r-- 1 wcx wcx   2434 9月  20 13:01 compat.py\n-rw-rw-r-- 1 wcx wcx  13686 9月  20 13:01 cookies.py\n-rw-rw-r-- 1 wcx wcx   1043 9月  20 13:01 exceptions.py\n-rw-rw-r-- 1 wcx wcx    798 9月  20 13:01 hooks.py\n-rw-rw-r-- 1 wcx wcx   1678 9月  20 13:01 __init__.py\n-rw-rw-r-- 1 wcx wcx  20789 9月  20 13:01 models.py\ndrwxrwxr-x 4 wcx wcx   4096 9月  20 13:01 packages\n-rw-rw-r-- 1 wcx wcx  12961 9月  20 13:01 sessions.py\n-rw-rw-r-- 1 wcx wcx   3043 9月  20 13:01 status_codes.py\n-rw-rw-r-- 1 wcx wcx   2327 9月  20 13:01 structures.py\n-rw-rw-r-- 1 wcx wcx  17344 9月  20 13:01 utils.py\n22623bd8 Merge pull request #1099 from sprt/master\nab2e7df8 Merge branch 'master' of git://github.com/kennethreitz/requests\nbeec48c8 Merge pull request #1137 from whit537/unperson_test\nb2427223 Merge pull request #1136 from steveklabnik/test_link_header\nef52044c Remove a test per @kennethreitz in IRC\n",
+      "tool_call_id": "call_00_2nSLe9rPSz9HgOMfVJjg3843"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_7P67kiUClvsrGTIqpDvd8563",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"grep -rn \\\"content-length\\\\|Content-Length\\\\|content_length\\\" requests/ --include=*.py\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"grep -rn \\\"content-length\\\\|Content-Length\\\\|content_length\\\" requests/ --include=*.py\"}):\nrequests/adapters.py:157:        chunked = not (request.body is None or 'Content-Length' in request.headers)\nrequests/models.py:362:                self.headers['Content-Length'] = length\nrequests/models.py:380:            self.prepare_content_length(body)\nrequests/models.py:388:    def prepare_content_length(self, body):\nrequests/models.py:389:        self.headers['Content-Length'] = '0'\nrequests/models.py:392:            self.headers['Content-Length'] = str(body.tell())\nrequests/models.py:395:            self.headers['Content-Length'] = str(len(body))\nrequests/models.py:410:            # Recompute Content-Length\nrequests/models.py:411:            self.prepare_content_length(self.body)\n",
+      "tool_call_id": "call_00_7P67kiUClvsrGTIqpDvd8563"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_kLxdY9hnl1mGYwsrIRph1956",
+          "type": "function",
+          "function": {
+            "name": "read",
+            "arguments": "{\"path\": \"requests/models.py\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool read({\"path\": \"requests/models.py\"}):\n# -*- coding: utf-8 -*-\n\n\"\"\"\nrequests.models\n~~~~~~~~~~~~~~~\n\nThis module contains the primary objects that power Requests.\n\"\"\"\n\nimport collections\nimport logging\n\nfrom io import BytesIO\nfrom .hooks import default_hooks\nfrom .structures import CaseInsensitiveDict\nfrom .status_codes import codes\n\nfrom .auth import HTTPBasicAuth\nfrom .cookies import cookiejar_from_dict, get_cookie_header\nfrom .packages.urllib3.filepost import encode_multipart_formdata\nfrom .exceptions import HTTPError, RequestException, MissingSchema, InvalidURL\nfrom .utils import (\n    stream_untransfer, guess_filename, requote_uri,\n    stream_decode_response_unicode, to_key_val_list, parse_header_links,\n    iter_slices, guess_json_utf, super_len)\nfrom .compat import (\n    cookielib, urlparse, urlunparse, urlsplit, urlencode, str, bytes, StringIO,\n    is_py2, chardet, json, builtin_str, basestring)\n\nREDIRECT_STATI = (codes.moved, codes.found, codes.other, codes.temporary_moved)\nCONTENT_CHUNK_SIZE = 10 * 1024\nITER_CHUNK_SIZE = 512\n\nlog = logging.getLogger(__name__)\n\n\nclass RequestEncodingMixin(object):\n    @property\n    def path_url(self):\n        \"\"\"Build the path URL to use.\"\"\"\n\n        url = []\n\n        p = urlsplit(self.url)\n\n        path = p.path\n        if not path:\n            path = '/'\n\n        url.append(path)\n\n        query = p.query\n        if query:\n            url.append('?')\n            url.append(query)\n\n        return ''.join(url)\n\n    @staticmethod\n    def _encode_params(data):\n        \"\"\"Encode parameters in a piece of data.\n\n        Will successfully encode parameters when passed as a dict or a list of\n        2-tuples. Order is retained if data is a list of 2-tuples but abritrary\n        if parameters are supplied as a dict.\n        \"\"\"\n\n        if isinstance(data, (str, bytes)):\n            return data\n        elif hasattr(data, 'read'):\n            return data\n        elif hasattr(data, '__iter__'):\n            result = []\n            for k, vs in to_key_val_list(data):\n                if isinstance(vs, basestring) or not hasattr(vs, '__iter__'):\n                    vs = [vs]\n                for v in vs:\n                    if v is not None:\n                        result.append(\n                            (k.encode('utf-8') if isinstance(k, str) else k,\n                             v.encode('utf-8') if isinstance(v, str) else v))\n            return urlencode(result, doseq=True)\n        else:\n            return data\n\n    @staticmethod\n    def _encode_files(files, data):\n        \"\"\"Build the body for a multipart/form-data request.\n\n        Will successfully encode files when passed as a dict or a list of\n        2-tuples. Order is retained if data is a list of 2-tuples but abritrary\n        if parameters are supplied as a dict.\n\n        \"\"\"\n        if (not files) or isinstance(data, str):\n            return None\n\n        new_fields = []\n        fields = to_key_val_list(data or {})\n        files = to_key_val_list(files or {})\n\n        for field, val in fields:\n            if isinstance(val, list):\n                for v in val:\n                    new_fields.append((field, builtin_str(v)))\n            else:\n                new_fields.append((field, builtin_str(val)))\n\n        for (k, v) in files:\n            # support for explicit filename\n            ft = None\n            if isinstance(v, (tuple, list)):\n                if len(v) == 2:\n                    fn, fp = v\n                else:\n                    fn, fp, ft = v\n            else:\n                fn = guess_filename(v) or k\n                fp = v\n            if isinstance(fp, str):\n                fp = StringIO(fp)\n            if isinstance(fp, bytes):\n                fp = BytesIO(fp)\n\n            if ft:\n                new_v = (fn, fp.read(), ft)\n            else:\n                new_v = (fn, fp.read())\n            new_fields.append((k, new_v))\n\n        body, content_type = encode_multipart_formdata(new_fields)\n\n        return body, content_type\n\n\nclass RequestHooksMixin(object):\n    def register_hook(self, event, hook):\n        \"\"\"Properly register a hook.\"\"\"\n\n        if isinstance(hook, collections.Callable):\n            self.hooks[event].append(hook)\n        elif hasattr(hook, '__iter__'):\n            self.hooks[event].extend(h for h in hook if isinstance(h, collections.Callable))\n\n    def deregister_hook(self, event, hook):\n        \"\"\"Deregister a previously registered hook.\n        Returns True if the hook existed, False if not.\n        \"\"\"\n\n        try:\n            self.hooks[event].remove(hook)\n            return True\n        except ValueError:\n            return False\n\n\nclass Request(RequestHooksMixin):\n    \"\"\"A user-created :class:`Request <Request>` object.\n\n    Used to prepare a :class:`PreparedRequest <PreparedRequest>`, which is sent to the server.\n\n    :param method: HTTP method to use.\n    :param url: URL to send.\n    :param headers: dictionary of headers to send.\n    :param files: dictionary of {filename: fileobject} files to multipart upload.\n    :param data: the body to attach the request. If a dictionary is provided, form-encoding will take place.\n    :param params: dictionary of URL parameters to append to the URL.\n    :param auth: Auth handler or (user, pass) tuple.\n    :param cookies: dictionary or CookieJar of cookies to attach to this request.\n    :param hooks: dictionary of callback hooks, for internal usage.\n\n    Usage::\n\n      >>> import requests\n      >>> req = requests.Request('GET', 'http://httpbin.org/get')\n      >>> req.prepare()\n      <PreparedRequest [GET]>\n\n    \"\"\"\n    def __init__(self,\n        method=None,\n        url=None,\n        headers=None,\n        files=None,\n        data=dict(),\n        params=dict(),\n        auth=None,\n        cookies=None,\n        hooks=None):\n\n\n        # Default empty dicts for dict params.\n        data = [] if data is None else data\n        files = [] if files is None else files\n        headers = {} if headers is None else headers\n        params = {} if params is None else para",
+      "tool_call_id": "call_00_kLxdY9hnl1mGYwsrIRph1956"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_lTZvSoKgSb0ijwLnfVc15639",
+          "type": "function",
+          "function": {
+            "name": "read",
+            "arguments": "{\"path\": \"requests/models.py\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool read({\"path\": \"requests/models.py\"}):\n# -*- coding: utf-8 -*-\n\n\"\"\"\nrequests.models\n~~~~~~~~~~~~~~~\n\nThis module contains the primary objects that power Requests.\n\"\"\"\n\nimport collections\nimport logging\n\nfrom io import BytesIO\nfrom .hooks import default_hooks\nfrom .structures import CaseInsensitiveDict\nfrom .status_codes import codes\n\nfrom .auth import HTTPBasicAuth\nfrom .cookies import cookiejar_from_dict, get_cookie_header\nfrom .packages.urllib3.filepost import encode_multipart_formdata\nfrom .exceptions import HTTPError, RequestException, MissingSchema, InvalidURL\nfrom .utils import (\n    stream_untransfer, guess_filename, requote_uri,\n    stream_decode_response_unicode, to_key_val_list, parse_header_links,\n    iter_slices, guess_json_utf, super_len)\nfrom .compat import (\n    cookielib, urlparse, urlunparse, urlsplit, urlencode, str, bytes, StringIO,\n    is_py2, chardet, json, builtin_str, basestring)\n\nREDIRECT_STATI = (codes.moved, codes.found, codes.other, codes.temporary_moved)\nCONTENT_CHUNK_SIZE = 10 * 1024\nITER_CHUNK_SIZE = 512\n\nlog = logging.getLogger(__name__)\n\n\nclass RequestEncodingMixin(object):\n    @property\n    def path_url(self):\n        \"\"\"Build the path URL to use.\"\"\"\n\n        url = []\n\n        p = urlsplit(self.url)\n\n        path = p.path\n        if not path:\n            path = '/'\n\n        url.append(path)\n\n        query = p.query\n        if query:\n            url.append('?')\n            url.append(query)\n\n        return ''.join(url)\n\n    @staticmethod\n    def _encode_params(data):\n        \"\"\"Encode parameters in a piece of data.\n\n        Will successfully encode parameters when passed as a dict or a list of\n        2-tuples. Order is retained if data is a list of 2-tuples but abritrary\n        if parameters are supplied as a dict.\n        \"\"\"\n\n        if isinstance(data, (str, bytes)):\n            return data\n        elif hasattr(data, 'read'):\n            return data\n        elif hasattr(data, '__iter__'):\n            result = []\n            for k, vs in to_key_val_list(data):\n                if isinstance(vs, basestring) or not hasattr(vs, '__iter__'):\n                    vs = [vs]\n                for v in vs:\n                    if v is not None:\n                        result.append(\n                            (k.encode('utf-8') if isinstance(k, str) else k,\n                             v.encode('utf-8') if isinstance(v, str) else v))\n            return urlencode(result, doseq=True)\n        else:\n            return data\n\n    @staticmethod\n    def _encode_files(files, data):\n        \"\"\"Build the body for a multipart/form-data request.\n\n        Will successfully encode files when passed as a dict or a list of\n        2-tuples. Order is retained if data is a list of 2-tuples but abritrary\n        if parameters are supplied as a dict.\n\n        \"\"\"\n        if (not files) or isinstance(data, str):\n            return None\n\n        new_fields = []\n        fields = to_key_val_list(data or {})\n        files = to_key_val_list(files or {})\n\n        for field, val in fields:\n            if isinstance(val, list):\n                for v in val:\n                    new_fields.append((field, builtin_str(v)))\n            else:\n                new_fields.append((field, builtin_str(val)))\n\n        for (k, v) in files:\n            # support for explicit filename\n            ft = None\n            if isinstance(v, (tuple, list)):\n                if len(v) == 2:\n                    fn, fp = v\n                else:\n                    fn, fp, ft = v\n            else:\n                fn = guess_filename(v) or k\n                fp = v\n            if isinstance(fp, str):\n                fp = StringIO(fp)\n            if isinstance(fp, bytes):\n                fp = BytesIO(fp)\n\n            if ft:\n                new_v = (fn, fp.read(), ft)\n            else:\n                new_v = (fn, fp.read())\n            new_fields.append((k, new_v))\n\n        body, content_type = encode_multipart_formdata(new_fields)\n\n        return body, content_type\n\n\nclass RequestHooksMixin(object):\n    def register_hook(self, event, hook):\n        \"\"\"Properly register a hook.\"\"\"\n\n        if isinstance(hook, collections.Callable):\n            self.hooks[event].append(hook)\n        elif hasattr(hook, '__iter__'):\n            self.hooks[event].extend(h for h in hook if isinstance(h, collections.Callable))\n\n    def deregister_hook(self, event, hook):\n        \"\"\"Deregister a previously registered hook.\n        Returns True if the hook existed, False if not.\n        \"\"\"\n\n        try:\n            self.hooks[event].remove(hook)\n            return True\n        except ValueError:\n            return False\n\n\nclass Request(RequestHooksMixin):\n    \"\"\"A user-created :class:`Request <Request>` object.\n\n    Used to prepare a :class:`PreparedRequest <PreparedRequest>`, which is sent to the server.\n\n    :param method: HTTP method to use.\n    :param url: URL to send.\n    :param headers: dictionary of headers to send.\n    :param files: dictionary of {filename: fileobject} files to multipart upload.\n    :param data: the body to attach the request. If a dictionary is provided, form-encoding will take place.\n    :param params: dictionary of URL parameters to append to the URL.\n    :param auth: Auth handler or (user, pass) tuple.\n    :param cookies: dictionary or CookieJar of cookies to attach to this request.\n    :param hooks: dictionary of callback hooks, for internal usage.\n\n    Usage::\n\n      >>> import requests\n      >>> req = requests.Request('GET', 'http://httpbin.org/get')\n      >>> req.prepare()\n      <PreparedRequest [GET]>\n\n    \"\"\"\n    def __init__(self,\n        method=None,\n        url=None,\n        headers=None,\n        files=None,\n        data=dict(),\n        params=dict(),\n        auth=None,\n        cookies=None,\n        hooks=None):\n\n\n        # Default empty dicts for dict params.\n        data = [] if data is None else data\n        files = [] if files is None else files\n        headers = {} if headers is None else headers\n        params = {} if params is None else para",
+      "tool_call_id": "call_00_lTZvSoKgSb0ijwLnfVc15639"
+    },
+    {
+      "role": "assistant",
+      "content": "The read tool seems to truncate. Let me view the relevant section with bash.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_0VRp78p5tySrxMjjWit25511",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"sed -n '340,420p' requests/models.py\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"sed -n '340,420p' requests/models.py\"}):\n        content_type = None\n        length = None\n        is_stream = False\n\n        is_stream = all([\n            hasattr(data, '__iter__'),\n            not isinstance(data, basestring),\n            not isinstance(data, dict)\n        ])\n\n        try:\n            length = str(super_len(data))\n        except (TypeError, AttributeError):\n            length = False\n\n        if is_stream:\n            body = data\n\n            if files:\n                raise NotImplementedError('Streamed bodies and files are mutually exclusive.')\n\n            if length:\n                self.headers['Content-Length'] = length\n            else:\n                self.headers['Transfer-Encoding'] = 'chunked'\n        # Check if file, fo, generator, iterator.\n        # If not, run through normal process.\n\n        else:\n            # Multi-part file uploads.\n            if files:\n                (body, content_type) = self._encode_files(files, data)\n            else:\n                if data:\n                    body = self._encode_params(data)\n                    if isinstance(data, str) or isinstance(data, builtin_str) or hasattr(data, 'read'):\n                        content_type = None\n                    else:\n                        content_type = 'application/x-www-form-urlencoded'\n\n            self.prepare_content_length(body)\n\n            # Add content-type if it wasn't explicitly provided.\n            if (content_type) and (not 'content-type' in self.headers):\n                self.headers['Content-Type'] = content_type\n\n        self.body = body\n\n    def prepare_content_length(self, body):\n        self.headers['Content-Length'] = '0'\n        if hasattr(body, 'seek') and hasattr(body, 'tell'):\n            body.seek(0, 2)\n            self.headers['Content-Length'] = str(body.tell())\n            body.seek(0, 0)\n        elif body is not None:\n            self.headers['Content-Length'] = str(len(body))\n\n    def prepare_auth(self, auth):\n        \"\"\"Prepares the given HTTP auth data.\"\"\"\n        if auth:\n            if isinstance(auth, tuple) and len(auth) == 2:\n                # special-case basic HTTP auth\n                auth = HTTPBasicAuth(*auth)\n\n            # Allow auth to make its changes.\n            r = auth(self)\n\n            # Update self to reflect the auth changes.\n            self.__dict__.update(r.__dict__)\n\n            # Recompute Content-Length\n            self.prepare_content_length(self.body)\n\n    def prepare_cookies(self, cookies):\n        \"\"\"Prepares the given HTTP cookie data.\"\"\"\n\n        if isinstance(cookies, cookielib.CookieJar):\n            cookies = cookies\n        else:\n            cookies = cookiejar_from_dict(cookies)\n\n",
+      "tool_call_id": "call_00_0VRp78p5tySrxMjjWit25511"
+    },
+    {
+      "role": "assistant",
+      "content": "Now I understand the issue. The `prepare_content_length` always sets `Content-Length: 0` even when there's no body. Let me look at the adapters.py for chunked handling too.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_tNhIfPzJ6o6CdK88vDsY1883",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"sed -n '140,175p' requests/adapters.py\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"sed -n '140,175p' requests/adapters.py\"}):\n        proxy = proxies.get(urlparse(request.url).scheme)\n\n        if proxy:\n            url, _ = urldefrag(request.url)\n        else:\n            url = request.path_url\n\n        return url\n\n    def send(self, request, stream=False, timeout=None, verify=True, cert=None, proxies=None):\n        \"\"\"Sends PreparedRequest object. Returns Response object.\"\"\"\n\n        conn = self.get_connection(request.url, proxies)\n\n        self.cert_verify(conn, request.url, verify, cert)\n        url = self.request_url(request, proxies)\n\n        chunked = not (request.body is None or 'Content-Length' in request.headers)\n\n        try:\n            if not chunked:\n                resp = conn.urlopen(\n                    method=request.method,\n                    url=url,\n                    body=request.body,\n                    headers=request.headers,\n                    redirect=False,\n                    assert_same_host=False,\n                    preload_content=False,\n                    decode_content=False,\n                    retries=self.max_retries,\n                    timeout=timeout\n                )\n\n            # Send the request.\n            else:\n",
+      "tool_call_id": "call_00_tNhIfPzJ6o6CdK88vDsY1883"
+    },
+    {
+      "role": "assistant",
+      "content": "Now let me fix `prepare_content_length` to not set the header when there's no body. Let me check the test file for existing tests related to this.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_6XAr8UzwK3Oa2P9IyCCm8204",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"grep -n \\\"content_length\\\\|Content-Length\\\\|prepare_content\\\" test_requests.py\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"grep -n \\\"content_length\\\\|Content-Length\\\\|prepare_content\\\" test_requests.py\"}):\n(no output)",
+      "tool_call_id": "call_00_6XAr8UzwK3Oa2P9IyCCm8204"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_lmb6PBjrKzMBCIraEVa19321",
+          "type": "function",
+          "function": {
+            "name": "edit",
+            "arguments": "{\"path\": \"requests/models.py\", \"old\": \"    def prepare_content_length(self, body):\\n        self.headers['Content-Length'] = '0'\\n        if hasattr(body, 'seek') and hasattr(body, 'tell'):\\n            body.seek(0, 2)\\n            self.headers['Content-Length'] = str(body.tell())\\n            body.seek(0, 0)\\n        elif body is not None:\\n            self.headers['Content-Length'] = str(len(body))\", \"new\": \"    def prepare_content_length(self, body):\\n        if hasattr(body, 'seek') and hasattr(body, 'tell'):\\n            body.seek(0, 2)\\n            self.headers['Content-Length'] = str(body.tell())\\n            body.seek(0, 0)\\n        elif body is not None:\\n            self.headers['Content-Length'] = str(len(body))\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool edit({\"path\": \"requests/models.py\", \"old\": \"    def prepare_content_length(self, body):\\n        self.headers['Content-Length'] = '0'\\n        if hasattr(body, 'seek') and hasattr(body, 'tell'):\\n            body.seek(0, 2)\\n            self.headers['Content-Length'] = str(body.tell())\\n            body.seek(0, 0)\\n        elif body is not None:\\n            self.headers['Content-Length'] = str(len(bod):\n(edit applied to requests/models.py)",
+      "tool_call_id": "call_00_lmb6PBjrKzMBCIraEVa19321"
+    },
+    {
+      "role": "assistant",
+      "content": "Now let me verify the change and run the tests.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_Tl1uSRp9yI62N8sbVDAR4132",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"sed -n '386,398p' requests/models.py && python -c \\\"\\nimport requests\\nr = requests.Request('GET', 'http://example.com').prepare()\\nprint('GET headers:', dict(r.headers))\\nr2 = requests.Request('POST', 'http://example.com', data={'a':'b'}).prepare()\\nprint('POST headers:', dict(r2.headers))\\n\\\"\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"sed -n '386,398p' requests/models.py && python -c \\\"\\nimport requests\\nr = requests.Request('GET', 'http://example.com').prepare()\\nprint('GET headers:', dict(r.headers))\\nr2 = requests.Request('POST', 'http://example.com', data={'a':'b'}).prepare()\\nprint('POST headers:', dict(r2.headers))\\n\\\"\"}):\n        self.body = body\n\n    def prepare_content_length(self, body):\n        if hasattr(body, 'seek') and hasattr(body, 'tell'):\n            body.seek(0, 2)\n            self.headers['Content-Length'] = str(body.tell())\n            body.seek(0, 0)\n        elif body is not None:\n            self.headers['Content-Length'] = str(len(body))\n\n    def prepare_auth(self, auth):\n        \"\"\"Prepares the given HTTP auth data.\"\"\"\n        if auth:\nGET headers: {}\nPOST headers: {'Content-Length': '3', 'Content-Type': 'application/x-www-form-urlencoded'}\n",
+      "tool_call_id": "call_00_Tl1uSRp9yI62N8sbVDAR4132"
+    },
+    {
+      "role": "assistant",
+      "content": "The GET request no longer sends Content-Length, while POST with data still does. Now let me check that the adapters.py chunked logic still works correctly. With no Content-Length and no body, `chunked = not (request.body is None or ...)` = `not (True or ...)` = False. Good.\n\nLet me run the test suite.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_0OamYIUCYOO4X0y53jaK5734",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"python -m pytest test_requests.py -q 2>&1 | tail -30\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"python -m pytest test_requests.py -q 2>&1 | tail -30\"}):\nsource:365: DeprecationWarning: invalid escape sequence \\*\nsource:391: DeprecationWarning: invalid escape sequence \\*\nsource:574: DeprecationWarning: invalid escape sequence \\*\n\nsource:52: DeprecationWarning: invalid escape sequence \\*\nsource:63: DeprecationWarning: invalid escape sequence \\*\nsource:74: DeprecationWarning: invalid escape sequence \\*\nsource:85: DeprecationWarning: invalid escape sequence \\*\nsource:96: DeprecationWarning: invalid escape sequence \\*\nsource:107: DeprecationWarning: invalid escape sequence \\*\nsource:117: DeprecationWarning: invalid escape sequence \\*\nsource:305: DeprecationWarning: invalid escape sequence \\*\nsource:315: DeprecationWarning: invalid escape sequence \\*\nsource:325: DeprecationWarning: invalid escape sequence \\*\nsource:336: DeprecationWarning: invalid escape sequence \\*\nsource:346: DeprecationWarning: invalid escape sequence \\*\nsource:356: DeprecationWarning: invalid escape sequence \\*\nsource:365: DeprecationWarning: invalid escape sequence \\*\nsource:391: DeprecationWarning: invalid escape sequence \\*\nsource:574: DeprecationWarning: invalid escape sequence \\*\n\n-- Docs: https://docs.pytest.org/en/latest/warnings.html\n21 failed, 5 passed, 323 warnings in 0.80 seconds\n/home/slt/anaconda3/lib/python3.7/site-packages/hypothesis-6.88.1-py3.7.egg/_hypothesis_pytestplugin.py:94: UserWarning: \n        You are using pytest version 3.8.0. Hypothesis tests work with any test\n        runner, but our pytest plugin requires pytest 4.6 or newer.\n        Note that the pytest developers no longer support your version either!\n        Disabling the Hypothesis pytest plugin...\n    \n  warnings.warn(PYTEST_TOO_OLD_MESSAGE % (pytest.__version__,), stacklevel=1)\n",
+      "tool_call_id": "call_00_0OamYIUCYOO4X0y53jaK5734"
+    },
+    {
+      "role": "assistant",
+      "content": "There are many failures. Let me check whether these failures pre-exist (likely due to old code with new Python/servers). Let me check a couple.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_TAJbv98cX3PlINjzVSbu5627",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"python -m pytest test_requests.py -q 2>&1 | grep -E \\\"^(FAILED|test_requests)\\\" | head; echo \\\"---\\\"; python -m pytest test_requests.py 2>&1 | grep -iE \\\"error|assert\\\" | head -20\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"python -m pytest test_requests.py -q 2>&1 | grep -E \\\"^(FAILED|test_requests)\\\" | head; echo \\\"---\\\"; python -m pytest test_requests.py 2>&1 | grep -iE \\\"error|assert\\\" | head -20\"}):\ntest_requests.py:136: \ntest_requests.py:168: \ntest_requests.py:152: \ntest_requests.py:80: \ntest_requests.py:103: \ntest_requests.py:95: \ntest_requests.py:125: \ntest_requests.py:129: \ntest_requests.py:85: \ntest_requests.py:182: \n---\nE       TypeError: __init__() got an unexpected keyword argument 'strict'\nrequests/packages/urllib3/connectionpool.py:198: TypeError\nE       TypeError: __init__() got an unexpected keyword argument 'strict'\nrequests/packages/urllib3/connectionpool.py:198: TypeError\nE       TypeError: __init__() got an unexpected keyword argument 'strict'\nrequests/packages/urllib3/connectionpool.py:198: TypeError\nE       TypeError: __init__() got an unexpected keyword argument 'strict'\nrequests/packages/urllib3/connectionpool.py:198: TypeError\nE       TypeError: __init__() got an unexpected keyword argument 'strict'\nrequests/packages/urllib3/connectionpool.py:198: TypeError\nE       TypeError: __init__() got an unexpected keyword argument 'strict'\nrequests/packages/urllib3/connectionpool.py:198: TypeError\nE       TypeError: __init__() got an unexpected keyword argument 'strict'\nrequests/packages/urllib3/connectionpool.py:198: TypeError\nE       TypeError: __init__() got an unexpected keyword argument 'strict'\nrequests/packages/urllib3/connectionpool.py:198: TypeError\nE       TypeError: __init__() got an unexpected keyword argument 'strict'\nrequests/packages/urllib3/connectionpool.py:198: TypeError\nE       TypeError: __init__() got an unexpected keyword argument 'strict'\nrequests/packages/urllib3/connectionpool.py:198: TypeError\n",
+      "tool_call_id": "call_00_TAJbv98cX3PlINjzVSbu5627"
+    },
+    {
+      "role": "assistant",
+      "content": "These failures are pre-existing and caused by environment incompatibilities (old urllib3 `strict` kwarg with a newer Python/httplib, and network-dependent tests). Let me confirm these failures exist before my change by stashing.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_dbh9ybilkziSyovsIm9m4789",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"git stash && python -m pytest test_requests.py -q 2>&1 | tail -3; git stash pop\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"git stash && python -m pytest test_requests.py -q 2>&1 | tail -3; git stash pop\"}):\n\n*** Please tell me who you are.\n\nRun\n\n  git config --global user.email \"you@example.com\"\n  git config --global user.name \"Your Name\"\n\nto set your account's default identity.\nOmit --global to set the identity only in this repository.\n\nfatal: unable to auto-detect email address (got 'wcx@lijlun3-ndc-1080Ti-2.(none)')\nCannot save the current index state\nNo stash entries found.\n",
+      "tool_call_id": "call_00_dbh9ybilkziSyovsIm9m4789"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_kHdfXShMuVWKLgAxVnlW0656",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"git config user.email \\\"test@test.com\\\" && git config user.name \\\"test\\\" && git stash && python -m pytest test_requests.py -q 2>&1 | tail -3; git stash pop\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"git config user.email \\\"test@test.com\\\" && git config user.name \\\"test\\\" && git stash && python -m pytest test_requests.py -q 2>&1 | tail -3; git stash pop\"}):\nSaved working directory and index state WIP on (no branch): 22623bd8 Merge pull request #1099 from sprt/master\n        Disabling the Hypothesis pytest plugin...\n    \n  warnings.warn(PYTEST_TOO_OLD_MESSAGE % (pytest.__version__,), stacklevel=1)\nHEAD detached at 22623bd8\nChanges not staged for commit:\n  (use \"git add <file>...\" to update what will be committed)\n  (use \"git checkout -- <file>...\" to discard changes in working directory)\n\n\tmodified:   requests/models.py\n\nUntracked files:\n  (use \"git add <file>...\" to include in what will be committed)\n\n\t.pytest_cache/\n\nno changes added to commit (use \"git add\" and/or \"git commit -a\")\nDropped refs/stash@{0} (0ca5155a91a754f134e3f05013e045a9d9dd4237)\n",
+      "tool_call_id": "call_00_kHdfXShMuVWKLgAxVnlW0656"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_caxBsTDA5I7Taa6o0B9Z4365",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"git stash && python -m pytest test_requests.py -q 2>&1 | grep -E \\\"passed|failed\\\"; git stash pop\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"git stash && python -m pytest test_requests.py -q 2>&1 | grep -E \\\"passed|failed\\\"; git stash pop\"}):\nSaved working directory and index state WIP on (no branch): 22623bd8 Merge pull request #1099 from sprt/master\n21 failed, 5 passed, 324 warnings in 0.76 seconds\nHEAD detached at 22623bd8\nChanges not staged for commit:\n  (use \"git add <file>...\" to update what will be committed)\n  (use \"git checkout -- <file>...\" to discard changes in working directory)\n\n\tmodified:   requests/models.py\n\nUntracked files:\n  (use \"git add <file>...\" to include in what will be committed)\n\n\t.pytest_cache/\n\nno changes added to commit (use \"git add\" and/or \"git commit -a\")\nDropped refs/stash@{0} (b33e014b5a27b5836121d29e49c0c27041a13122)\n",
+      "tool_call_id": "call_00_caxBsTDA5I7Taa6o0B9Z4365"
+    },
+    {
+      "role": "assistant",
+      "content": "Confirmed: 21 failed, 5 passed both before and after my change — identical results, so my change introduces no regressions. The failures are environmental.\n\nNow let me add a test to verify the fix behaves as intended, and check the HISTORY for documentation.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_1DVhVx5FruShdvdAeFay0394",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"sed -n '1,60p' test_requests.py\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"sed -n '1,60p' test_requests.py\"}):\n#!/usr/bin/env python\n# -*- coding: utf-8 -*-\n\n\"\"\"Tests for Requests.\"\"\"\n\nimport json\nimport os\nimport unittest\n\nimport requests\nfrom requests.auth import HTTPDigestAuth\nfrom requests.compat import str\n\ntry:\n    import StringIO\nexcept ImportError:\n    import io as StringIO\n\nHTTPBIN = os.environ.get('HTTPBIN_URL', 'http://httpbin.org/')\n\ndef httpbin(*suffix):\n    \"\"\"Returns url for HTTPBIN resource.\"\"\"\n    return HTTPBIN + '/'.join(suffix)\n\nclass RequestsTestCase(unittest.TestCase):\n\n    _multiprocess_can_split_ = True\n\n    def setUp(self):\n        \"\"\"Create simple data set with headers.\"\"\"\n        pass\n\n    def tearDown(self):\n        \"\"\"Teardown.\"\"\"\n        pass\n\n    def test_entry_points(self):\n\n        requests.session\n        requests.session().get\n        requests.session().head\n        requests.get\n        requests.head\n        requests.put\n        requests.patch\n        requests.post\n\n    def test_invalid_url(self):\n        self.assertRaises(ValueError, requests.get, 'hiwpefhipowhefopw')\n\n    def test_basic_building(self):\n        req = requests.Request()\n        req.url = 'http://kennethreitz.org/'\n        req.data = {'life': '42'}\n\n        pr = req.prepare()\n        assert pr.url == req.url\n        assert pr.body == 'life=42'\n\n\n",
+      "tool_call_id": "call_00_1DVhVx5FruShdvdAeFay0394"
+    },
+    {
+      "role": "assistant",
+      "content": "Let me add a test that verifies no Content-Length header is added for bodyless requests.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_qNcP7110xJofHEuBuMH63920",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"grep -n \\\"def test_basic_building\\\" -A 10 test_requests.py\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"grep -n \\\"def test_basic_building\\\" -A 10 test_requests.py\"}):\n51:    def test_basic_building(self):\n52-        req = requests.Request()\n53-        req.url = 'http://kennethreitz.org/'\n54-        req.data = {'life': '42'}\n55-\n56-        pr = req.prepare()\n57-        assert pr.url == req.url\n58-        assert pr.body == 'life=42'\n59-\n60-\n61-    def test_path_is_not_double_encoded(self):\n",
+      "tool_call_id": "call_00_qNcP7110xJofHEuBuMH63920"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_9biBh0uLLlnlyr64d5ih4051",
+          "type": "function",
+          "function": {
+            "name": "edit",
+            "arguments": "{\"path\": \"test_requests.py\", \"old\": \"        pr = req.prepare()\\n        assert pr.url == req.url\\n        assert pr.body == 'life=42'\\n\\n\\n    def test_path_is_not_double_encoded(self):\", \"new\": \"        pr = req.prepare()\\n        assert pr.url == req.url\\n        assert pr.body == 'life=42'\\n\\n\\n    def test_no_content_length(self):\\n        # No Content-Length header should be added for bodyless requests.\\n        req = requests.Request('GET', 'http://kennethreitz.org/')\\n        pr = req.prepare()\\n        assert 'Content-Length' not in pr.headers\\n\\n        # A body should still result in a Content-Length header.\\n        req = requests.Request('POST', 'http://kennethreitz.org/',\\n                               data={'life': '42'})\\n        pr = req.prepare()\\n        assert pr.headers['Content-Length'] == '8'\\n\\n\\n    def test_path_is_not_double_encoded(self):\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool edit({\"path\": \"test_requests.py\", \"old\": \"        pr = req.prepare()\\n        assert pr.url == req.url\\n        assert pr.body == 'life=42'\\n\\n\\n    def test_path_is_not_double_encoded(self):\", \"new\": \"        pr = req.prepare()\\n        assert pr.url == req.url\\n        assert pr.body == 'life=42'\\n\\n\\n    def test_no_content_length(self):\\n        # No Content-Length header should be added for bodyle):\n(edit applied to test_requests.py)",
+      "tool_call_id": "call_00_9biBh0uLLlnlyr64d5ih4051"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_ElR3bwW1C2Q2BAMsxj5c4358",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"python -m pytest test_requests.py::RequestsTestCase::test_no_content_length test_requests.py::RequestsTestCase::test_basic_building -q 2>&1 | grep -E \\\"passed|failed\\\"\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"python -m pytest test_requests.py::RequestsTestCase::test_no_content_length test_requests.py::RequestsTestCase::test_basic_building -q 2>&1 | grep -E \\\"passed|failed\\\"\"}):\n1 failed, 1 passed, 1 warnings in 0.14 seconds\n",
+      "tool_call_id": "call_00_ElR3bwW1C2Q2BAMsxj5c4358"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_kgPMj8ED9ATpQoa49qXp7335",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"python -m pytest test_requests.py::RequestsTestCase::test_no_content_length -q 2>&1 | grep -iE \\\"assert|error|line\\\" | head\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"python -m pytest test_requests.py::RequestsTestCase::test_no_content_length -q 2>&1 | grep -iE \\\"assert|error|line\\\" | head\"}):\n        assert 'Content-Length' not in pr.headers\n>       assert pr.headers['Content-Length'] == '8'\nE       AssertionError: assert '7' == '8'\ntest_requests.py:71: AssertionError\n",
+      "tool_call_id": "call_00_kgPMj8ED9ATpQoa49qXp7335"
+    },
+    {
+      "role": "assistant",
+      "content": "`life=42` is 7 characters. Let me fix the test.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_8BybhXAgC9rUrD6AgUXu9794",
+          "type": "function",
+          "function": {
+            "name": "edit",
+            "arguments": "{\"new\": \"        assert pr.headers['Content-Length'] == '7'\", \"old\": \"        assert pr.headers['Content-Length'] == '8'\", \"path\": \"test_requests.py\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool edit({\"new\": \"        assert pr.headers['Content-Length'] == '7'\", \"old\": \"        assert pr.headers['Content-Length'] == '8'\", \"path\": \"test_requests.py\"}):\n(edit applied to test_requests.py)",
+      "tool_call_id": "call_00_8BybhXAgC9rUrD6AgUXu9794"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_ciQfepNA2oUKlVN5i4TV2305",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"python -m pytest test_requests.py::RequestsTestCase::test_no_content_length test_requests.py::RequestsTestCase::test_basic_building -q 2>&1 | grep -E \\\"passed|failed\\\"\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"python -m pytest test_requests.py::RequestsTestCase::test_no_content_length test_requests.py::RequestsTestCase::test_basic_building -q 2>&1 | grep -E \\\"passed|failed\\\"\"}):\n2 passed in 0.10 seconds\n",
+      "tool_call_id": "call_00_ciQfepNA2oUKlVN5i4TV2305"
+    },
+    {
+      "role": "assistant",
+      "content": "Both pass. Now let me also check the `prepare_auth` path. When auth is set, it calls `prepare_content_length(self.body)`. With body=None, that's now a no-op — good. Let me verify.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_mjz0NfngYThWcVrMsCin8538",
+          "type": "function",
+          "function": {
+            "name": "bash",
+            "arguments": "{\"command\": \"python -c \\\"\\nimport requests\\nr = requests.Request('GET', 'http://example.com', auth=('u','p')).prepare()\\nprint('GET+auth headers:', dict(r.headers))\\n# empty string body should still get content-length 0\\nr2 = requests.Request('POST', 'http://example.com', data='').prepare()\\nprint('POST empty body headers:', dict(r2.headers))\\n\\\"\"}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "content": "Tool bash({\"command\": \"python -c \\\"\\nimport requests\\nr = requests.Request('GET', 'http://example.com', auth=('u','p')).prepare()\\nprint('GET+auth headers:', dict(r.headers))\\n# empty string body should still get content-length 0\\nr2 = requests.Request('POST', 'http://example.com', data='').prepare()\\nprint('POST empty body headers:', dict(r2.headers))\\n\\\"\"}):\nGET+auth headers: {'Authorization': 'Basic dTpw'}\nPOST empty body headers: {}\n",
+      "tool_call_id": "call_00_mjz0NfngYThWcVrMsCin8538"
+    }
+  ],
+  "outcome": "fail"
+}
