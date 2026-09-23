@@ -1,0 +1,6 @@
+{
+  "instance_id": "astropy__astropy-13236",
+  "sample": 2,
+  "outcome": "pending",
+  "verdict_raw": "{\"msg02\":1,\"msg04\":0,\"msg06\":0,\"msg08\":1,\"msg10\":1,\"msg13\":0,\"msg15\":0,\"msg17\":0,\"msg19\":1,\"msg21\":1,\"msg23\":1,\"msg25\":1,\"msg27\":1,\"msg29\":1,\"msg31\":0}"
+}

@@ -1,0 +1,6 @@
+{
+  "instance_id": "django__django-15277",
+  "sample": 1,
+  "outcome": "unknown",
+  "verdict_raw": "{\"msg02\":1,\"msg05\":0,\"msg07\":0,\"msg09\":1,\"msg11\":1,\"msg13\":1,\"msg16\":1,\"msg19\":1,\"msg22\":1}"
+}

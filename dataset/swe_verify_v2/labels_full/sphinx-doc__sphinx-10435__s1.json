@@ -1,0 +1,6 @@
+{
+  "instance_id": "sphinx-doc__sphinx-10435",
+  "sample": 1,
+  "outcome": "pass",
+  "verdict_raw": "{\"msg02\":1,\"msg05\":0,\"msg07\":1,\"msg09\":1,\"msg11\":1,\"msg13\":1,\"msg16\":1,\"msg18\":1,\"msg20\":1,\"msg23\":1,\"msg25\":1,\"msg27\":0,\"msg29\":0,\"msg31\":0,\"msg33\":1}"
+}

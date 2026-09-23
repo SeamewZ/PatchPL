@@ -1,0 +1,6 @@
+{
+  "instance_id": "matplotlib__matplotlib-24637",
+  "sample": 2,
+  "outcome": "pending",
+  "verdict_raw": "{\"msg02\":1,\"msg05\":1,\"msg07\":1,\"msg09\":1,\"msg12\":1,\"msg14\":1,\"msg17\":1,\"msg19\":0,\"msg21\":0,\"msg23\":0,\"msg25\":1,\"msg27\":1,\"msg29\":1,\"msg31\":1,\"msg33\":1}"
+}

@@ -1,0 +1,6 @@
+{
+  "instance_id": "django__django-14122",
+  "sample": 2,
+  "outcome": "pending",
+  "verdict_raw": "{\"msg02\":1,\"msg05\":1,\"msg08\":0,\"msg10\":0,\"msg12\":1,\"msg15\":1,\"msg18\":1,\"msg21\":1,\"msg23\":0,\"msg25\":0,\"msg27\":0,\"msg29\":0,\"msg31\":0,\"msg33\":1,\"msg35\":1}"
+}

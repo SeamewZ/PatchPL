@@ -1,0 +1,6 @@
+{
+  "instance_id": "sphinx-doc__sphinx-9230",
+  "sample": 1,
+  "outcome": "pending",
+  "verdict_raw": "{\"msg02\":1,\"msg04\":1,\"msg05\":0,\"msg07\":0,\"msg09\":1,\"msg11\":1,\"msg13\":1,\"msg15\":1,\"msg17\":1,\"msg19\":0,\"msg21\":0,\"msg23\":0,\"msg25\":1,\"msg27\":1,\"msg29\":1,\"msg31\":1}"
+}

@@ -1,0 +1,6 @@
+{
+  "instance_id": "psf__requests-1766",
+  "sample": 0,
+  "outcome": "pending",
+  "verdict_raw": "{\"msg02\":1,\"msg05\":1,\"msg08\":1,\"msg10\":1,\"msg12\":1,\"msg14\":1,\"msg16\":1}"
+}

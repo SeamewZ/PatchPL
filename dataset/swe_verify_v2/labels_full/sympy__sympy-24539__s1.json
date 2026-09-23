@@ -1,0 +1,6 @@
+{
+  "instance_id": "sympy__sympy-24539",
+  "sample": 1,
+  "outcome": "pending",
+  "verdict_raw": "{\"msg02\":1,\"msg04\":0,\"msg06\":0,\"msg08\":0,\"msg10\":0,\"msg12\":1,\"msg14\":1,\"msg16\":1,\"msg18\":1,\"msg20\":1}"
+}

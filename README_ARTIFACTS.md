@@ -27,3 +27,17 @@
 - 轨迹 SFT 在 3B 基座上未生效(loss 稀释,模型未学会 `<tool_call>` 格式)
 - 补丁桥接 SFT 学会了格式(instruct 38/250 个补丁可 apply)但未学会修复内容
 - 结论:3B 容量天花板,建议换 7B / 注入上下文 / 扩数据
+
+## dataset/swe_verify_v2 (全量标注轮, 2026-09-23)
+
+导师要求的全量标注产物 (Qwen3.5-4B 在 500 实例上的 rollout):
+
+| 路径 | 内容 |
+| --- | --- |
+| `labels_full/` | 1143 份 rollout 标注 JSON (instance_id/sample/outcome/verdict_raw) |
+| `sft_clean_rendered.jsonl` | 标注后构建的 1107 条干净训练轨迹 (masked SFT 训练输入) |
+| `rollouts_full.tar.gz` | 1143 条原始 rollout 打包 (标注输入, 可复现) |
+| `split_train.jsonl` / `split_test.jsonl` | 400/100 按 repo+difficulty 分层划分 (seed 42) |
+| `label_rollouts_v2.py` | 标注脚本 (判据 a-e + GOLD-MATCH/REVERSE/NEUTRAL) |
+| `build_sft_from_labels.py` | 干净轨迹构建脚本 |
+| `rejudge_outcomes.py` | 测试结果补判脚本 |

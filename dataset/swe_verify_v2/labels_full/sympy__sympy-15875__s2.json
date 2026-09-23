@@ -1,0 +1,6 @@
+{
+  "instance_id": "sympy__sympy-15875",
+  "sample": 2,
+  "outcome": "unknown",
+  "verdict_raw": "{\"msg02\":1,\"msg05\":1,\"msg08\":0,\"msg10\":0,\"msg12\":1,\"msg14\":1,\"msg16\":1,\"msg18\":1,\"msg20\":0,\"msg22\":1,\"msg24\":1,\"msg26\":0,\"msg28\":0,\"msg30\":1,\"msg32\":1}"
+}

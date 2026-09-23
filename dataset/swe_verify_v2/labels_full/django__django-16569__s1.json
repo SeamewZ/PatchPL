@@ -1,0 +1,6 @@
+{
+  "instance_id": "django__django-16569",
+  "sample": 1,
+  "outcome": "fail",
+  "verdict_raw": "{\"msg01\": 1}"
+}

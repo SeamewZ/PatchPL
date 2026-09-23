@@ -1,0 +1,6 @@
+{
+  "instance_id": "pytest-dev__pytest-5787",
+  "sample": 2,
+  "outcome": "pending",
+  "verdict_raw": "{\"msg02\":1,\"msg05\":1,\"msg08\":1,\"msg10\":1,\"msg12\":0,\"msg14\":0,\"msg16\":1,\"msg18\":1,\"msg20\":1,\"msg22\":1,\"msg24\":1,\"msg26\":1,\"msg28\":1,\"msg30\":1,\"msg32\":1}"
+}
