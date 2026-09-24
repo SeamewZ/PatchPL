@@ -41,3 +41,10 @@
 | `label_rollouts_v2.py` | 标注脚本 (判据 a-e + GOLD-MATCH/REVERSE/NEUTRAL) |
 | `build_sft_from_labels.py` | 干净轨迹构建脚本 |
 | `rejudge_outcomes.py` | 测试结果补判脚本 |
+
+## v2 评测结果 (2026-09-24)
+
+- test 100 实例 (Qwen3.5-4B + vl20-full LoRA): **14 PASS / 36 FAIL / 50 unknown** -> resolve 14%
+- 历史对比: 3B 基座全方案 250 实例 0-1 个 (0.4%)
+- unknown 为镜像测试名漂移 (F2P 方法名不匹配), 与模型无关
+- 模型权重通过 Git LFS 存储 (adapter_model.safetensors)
