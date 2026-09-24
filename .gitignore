@@ -17,3 +17,19 @@ __pycache__/
 *.pyc
 .patch_guard_state
 .manual_guard_state
+
+# exceptions: v2 model metadata (weights go to GitHub Release)
+!models/
+models/*
+!models/qwen35-4b-lora-vl20-full/
+models/qwen35-4b-lora-vl20-full/*
+!models/qwen35-4b-lora-vl20-full/adapter_config.json
+!models/qwen35-4b-lora-vl20-full/chat_template.jinja
+!models/qwen35-4b-lora-vl20-full/tokenizer.json
+!models/qwen35-4b-lora-vl20-full/tokenizer_config.json
+!models/qwen35-4b-lora-vl20-full/README.md
+!models/qwen35-4b-lora-vl20-full/DONE
+!models/qwen35-4b-lora-vl20-full/state.json
+
+# exceptions: v2 eval logs
+!results/logs/*.log
