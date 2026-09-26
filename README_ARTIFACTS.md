@@ -48,3 +48,20 @@
 - 历史对比: 3B 基座全方案 250 实例 0-1 个 (0.4%)
 - unknown 为镜像测试名漂移 (F2P 方法名不匹配), 与模型无关
 - 模型权重通过 Git LFS 存储 (adapter_model.safetensors)
+
+## v2 transition-schema pipeline (2026-09-26)
+
+导师要求的新数据格式: SFT 与 RL 共用 transition schema
+(state/action/next_state/trajectory_success/keep/reason), 并修复 3 个硬问题:
+
+1. 严格只保留成功轨迹 (outcome == pass, 174 条 / 59 实例)
+2. 无伪边: 不再删除消息后拼接; 改用容器重放验证
+3. keep 标签 = "删除该步后仍能 PASS" (贪心重放修剪)
+
+| 文件 | 内容 |
+| --- | --- |
+| `data/build_transitions.py` | transition schema 构建 (pass-only) |
+| `data/trajectory_prune.py` | 重放验证修剪 (keep/reason/diff) |
+| `dataset/swe_verify_v2/transitions_v1_final.jsonl` | 2780 条 transition 含 keep 标签 (RL 用) |
+| `dataset/swe_verify_v2/transitions_v1_kept.jsonl` | 839 条 keep=1 (30.2%, 压缩 SFT 用) |
+| `dataset/swe_verify_v2/prune_v1.jsonl` | 修剪原始结果 (per-step keep/reason/diff) |
